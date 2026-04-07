@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SnapClip</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --neon: #00ffe0;
+      --neon-dim: rgba(0,255,224,0.15);
+      --bg: #0b0e14;
+      --surface: #111520;
+      --border: rgba(0,255,224,0.12);
+      --text: rgba(255,255,255,0.85);
+      --muted: rgba(255,255,255,0.38);
+    }
+
+    html, body {
+      width: 320px;
+      min-height: 300px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── Header ── */
+    .header {
+      padding: 18px 18px 14px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(160deg, #0f1420 0%, var(--bg) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 120px; height: 120px;
+      background: radial-gradient(circle, rgba(0,255,224,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+    .logo-icon {
+      width: 30px; height: 30px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #0d1f1c 0%, #091a17 100%);
+      border: 1px solid rgba(0,255,224,0.25);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 12px rgba(0,255,224,0.15);
+    }
+    .logo-icon svg { width: 16px; height: 16px; }
+    .logo-name {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      background: linear-gradient(90deg, #fff 0%, rgba(0,255,224,0.9) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .logo-tag {
+      margin-left: auto;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: var(--neon);
+      text-transform: uppercase;
+      background: rgba(0,255,224,0.08);
+      border: 1px solid rgba(0,255,224,0.2);
+      padding: 2px 7px;
+      border-radius: 99px;
+    }
+    .header-sub {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.5;
+      padding-left: 40px;
+    }
+
+    /* ── Main CTA ── */
+    .main-section {
+      padding: 16px 16px 8px;
+    }
+    .snip-btn {
+      width: 100%;
+      padding: 13px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(0,255,224,0.3);
+      background: linear-gradient(135deg, rgba(0,255,224,0.10) 0%, rgba(0,255,224,0.05) 100%);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .snip-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,255,224,0.08) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .snip-btn:hover { border-color: rgba(0,255,224,0.55); transform: translateY(-1px); box-shadow: 0 4px 20px rgba(0,255,224,0.12); }
+    .snip-btn:hover::before { opacity: 1; }
+    .snip-btn:active { transform: translateY(0); }
+    .snip-btn-icon {
+      width: 36px; height: 36px;
+      border-radius: 9px;
+      background: rgba(0,255,224,0.10);
+      border: 1px solid rgba(0,255,224,0.2);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 0 10px rgba(0,255,224,0.08);
+    }
+    .snip-btn-icon svg { width: 18px; height: 18px; }
+    .snip-btn-text { flex: 1; text-align: left; }
+    .snip-btn-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 0.2px;
+      display: block;
+    }
+    .snip-btn-sub {
+      font-size: 10px;
+      color: var(--muted);
+      display: block;
+      margin-top: 1px;
+    }
+    .snip-btn-arrow {
+      color: var(--neon);
+      font-size: 16px;
+      opacity: 0.5;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .snip-btn:hover .snip-btn-arrow { opacity: 1; transform: translateX(2px); }
+
+    /* ── Features ── */
+    .features {
+      padding: 4px 16px 12px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+    .feat {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 9px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.025);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .feat-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--neon);
+      flex-shrink: 0;
+      box-shadow: 0 0 4px var(--neon);
+    }
+    .feat-text {
+      font-size: 10px;
+      color: var(--muted);
+      line-height: 1.3;
+    }
+
+    /* ── Active Snips ── */
+    .snips-section {
+      border-top: 1px solid var(--border);
+      padding: 12px 16px;
+    }
+    .snips-title {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .snips-count {
+      background: rgba(0,255,224,0.12);
+      color: var(--neon);
+      border-radius: 99px;
+      padding: 1px 7px;
+      font-size: 9px;
+    }
+    .snips-empty {
+      text-align: center;
+      padding: 12px 0 4px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .snips-list { display: flex; flex-direction: column; gap: 5px; }
+    .snip-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 8px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .snip-thumb {
+      width: 32px; height: 22px;
+      border-radius: 4px;
+      object-fit: cover;
+      border: 1px solid rgba(0,255,224,0.15);
+      flex-shrink: 0;
+    }
+    .snip-info { flex: 1; min-width: 0; }
+    .snip-info-label {
+      font-size: 10px;
+      color: rgba(255,255,255,0.6);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .snip-del {
+      width: 18px; height: 18px;
+      border-radius: 5px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: rgba(255,80,80,0.5);
+      font-size: 12px;
+      display: flex; align-items: center; justify-content: center;
+      transition: color 0.15s, background 0.15s;
+    }
+    .snip-del:hover { color: #ff6060; background: rgba(255,80,80,0.1); }
+    .clear-all {
+      margin-top: 8px;
+      width: 100%;
+      padding: 6px;
+      border-radius: 7px;
+      background: rgba(255,60,60,0.05);
+      border: 1px solid rgba(255,60,60,0.15);
+      color: rgba(255,100,100,0.7);
+      font-size: 10px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+      letter-spacing: 0.3px;
+    }
+    .clear-all:hover { background: rgba(255,60,60,0.12); color: #ff8080; border-color: rgba(255,60,60,0.3); }
+
+    /* ── Shortcut hint ── */
+    .shortcut-hint {
+      padding: 6px 16px 14px;
+      text-align: center;
+      font-size: 10px;
+      color: rgba(255,255,255,0.18);
+      letter-spacing: 0.3px;
+    }
+    .kbd {
+      display: inline-block;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 3px;
+      padding: 1px 5px;
+      font-family: monospace;
+      font-size: 9px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo-row">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4z" stroke="#00ffe0" stroke-width="1.5" stroke-linejoin="round"/>
+          <path d="M17 17l4 4M17 21l4-4" stroke="#00ffe0" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="19" cy="19" r="3" stroke="#00ffe0" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <span class="logo-name">SnapClip</span>
+      <span class="logo-tag">v1.0</span>
+    </div>
+    <div class="header-sub">Advanced screen snipping for any webpage</div>
+  </div>
+
+  <!-- Main Action -->
+  <div class="main-section">
+    <button class="snip-btn" id="startSnip">
+      <div class="snip-btn-icon">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="#00ffe0" stroke-width="1.5" stroke-linecap="round"/>
+          <rect x="8" y="8" width="8" height="8" rx="1" stroke="#00ffe0" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="snip-btn-text">
+        <span class="snip-btn-title">Capture Region</span>
+        <span class="snip-btn-sub">Click &amp; drag on the page</span>
+      </div>
+      <span class="snip-btn-arrow">›</span>
+    </button>
+  </div>
+
+  <!-- Feature list -->
+  <div class="features">
+    <div class="feat"><div class="feat-dot"></div><div class="feat-text">Persists across tabs</div></div>
+    <div class="feat"><div class="feat-dot"></div><div class="feat-text">Draggable popups</div></div>
+    <div class="feat"><div class="feat-dot"></div><div class="feat-text">Multiple snips</div></div>
+    <div class="feat"><div class="feat-dot"></div><div class="feat-text">Copy to clipboard</div></div>
+  </div>
+
+  <!-- Active Snips Panel -->
+  <div class="snips-section">
+    <div class="snips-title">
+      Active Snips
+      <span class="snips-count" id="snipsCount">0</span>
+    </div>
+    <div id="snipsList">
+      <div class="snips-empty" id="snipsEmpty">No snips yet</div>
+    </div>
+    <button class="clear-all" id="clearAll" style="display:none">✕ Clear all snips</button>
+  </div>
+
+  <div class="shortcut-hint">
+    Press <span class="kbd">ESC</span> to cancel selection
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
