@@ -2,12 +2,13 @@
 
 ## 🚀 Installation (takes 30 seconds)
 
-1. **Download & extract** the `snip-extension` folder to your computer
-2. Open Chrome and go to: `chrome://extensions/`
-3. Enable **Developer Mode** (toggle in the top-right corner)
-4. Click **"Load unpacked"**
-5. Select the `snip-extension` folder
-6. ✅ Done! The SnapClip icon appears in your Chrome toolbar
+1. **Download & extract** the `snip-extension` zip file  to your computer
+2. Unzip the folder.
+3. Open Chrome and go to: `chrome://extensions/`
+4. Enable **Developer Mode** (toggle in the top-right corner)
+5. Click **"Load unpacked"**
+6. Select the `snip-extension` folder(Unziped folder)
+7. ✅ Done! The SnapClip icon appears in your Chrome toolbar
 
 ---
 
@@ -66,3 +67,6 @@
   still works normally.
 - Snips are stored locally in `chrome.storage.local` and persist until you
   close them or click "Clear all" in the popup.
+
+
+  ---NOTE: IF THE EXTENSION DOSENT WORK RELOAD THE WEBPAGE---
